@@ -15,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        dd(BlogPost::all());
+        return view('posts.index', ['posts' => BlogPost::all()]);
     }
     /**
      * Display the specified resource.
@@ -25,6 +25,28 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        dd(BlogPost::find($id));
+        return view('posts.show', ['post' => BlogPost::findOrFail($id)]);
+    }
+
+    public function create()
+    {
+        return view('posts.create');
+    }
+    public function store(Request $request)
+    {
+
+        $validatedData = $request->validate([
+            'title' => 'min:5|required|max:100',
+            'content' => 'required|min:5'
+        ]);
+
+        $blogPost = new BlogPost();
+        $blogPost->title = $request->input('title');
+        $blogPost->content = $request->input('content');
+        $blogPost->save();
+
+        $request->session()->flash('status', 'BlogPost was created sucessfully');
+
+        return redirect()->route('posts.show', ['post' => $blogPost->id]);
     }
 }

@@ -10,7 +10,14 @@
     <ul>
         <li><a href="{{ route('home') }}">Home</a></li>
         <li><a href="{{ route('contact') }}">Contact Page</a></li>
+        <li><a href="{{ route('posts.index') }}">Blog Posts</a></li>
+        <li><a href="{{ route('posts.create') }}">Create a Blog Posts</a></li>
     </ul>
+    @if(session()->has('status'))
+        <p style="color:green">
+            {{ session()->get('status') }}
+        </p>
+    @endif
     @yield('content')
 </body>
 </html>
