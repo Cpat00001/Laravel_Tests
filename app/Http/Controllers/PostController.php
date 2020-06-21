@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BlogPost;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StorePost;
 
 class PostController extends Controller
 {
@@ -32,21 +33,27 @@ class PostController extends Controller
     {
         return view('posts.create');
     }
-    public function store(Request $request)
+    public function store(StorePost $request)
     {
 
-        $validatedData = $request->validate([
-            'title' => 'min:5|required|max:100',
-            'content' => 'required|min:5'
-        ]);
-
-        $blogPost = new BlogPost();
-        $blogPost->title = $request->input('title');
-        $blogPost->content = $request->input('content');
-        $blogPost->save();
-
+        $validatedData = $request->validated();
+        $blogPost = BlogPost::create($validatedData);
         $request->session()->flash('status', 'BlogPost was created sucessfully');
 
         return redirect()->route('posts.show', ['post' => $blogPost->id]);
+    }
+    public function edit($id)
+    {
+        $post = BlogPost::findOrFail($id);
+        return view('posts.edit', ['post' => $post]);
+    }
+    public function update(StorePost $request, $id)
+    {
+        $post = BlogPost::findOrFail($id);
+        $validatedData = $request->validated();
+        $post->fill($validatedData);
+        $post->save();
+        $request->session()->flash('status', 'BlogPost was updated sucessfully');
+        return redirect()->route('posts.show', ['post' => $post->id]);
     }
 }
