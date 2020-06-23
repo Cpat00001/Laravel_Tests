@@ -56,4 +56,14 @@ class PostController extends Controller
         $request->session()->flash('status', 'BlogPost was updated sucessfully');
         return redirect()->route('posts.show', ['post' => $post->id]);
     }
+    public function destroy(Request $request, $id)
+    {
+        $post = BlogPost::findOrFail($id);
+        $post->delete();
+        // drugi sposob uzywajac static destroy()
+        //BlogPost::destroy($id);
+
+        $request->session()->flash('status', 'Blog post was deleted');
+        return redirect()->route('posts.index');
+    }
 }
