@@ -5,13 +5,15 @@
         @csrf
         <p>
             <label>Title</label>
-            <input type="text" name="title" value="{{ old('title') }}"">
+            <input type="text" name="title" class="form-control"
+             value="{{ old('title') }}"">
         </p>
         <p>
             <label>Content</label>
-            <input type="text" name="content" value="{{ old('content') }}">
+            <input type="text" name="content" class="form-control"
+             value="{{ old('content') }}">
         </p>
-        <button type="submit">Create</button>
+        <button type="submit" class="btn btn-primary btn-block">Create</button>
     </form>
 @if($errors->any())
     <ul>

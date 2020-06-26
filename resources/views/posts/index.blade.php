@@ -10,13 +10,14 @@
 
 @forelse ($posts as $post)
     <h3>   
-        <a href="{{ route('posts.show',['post'=>$post->id]) }}">{{ $post->title }}</a>
+        <a href="{{ route('posts.show',['post'=>$post->id]) }}" >{{ $post->title }}</a>
     </h3>
-    <a href="{{ route('posts.edit',['post'=>$post->id]) }}">Edit Post</a>
-    <form method="POST" action="{{ route('posts.destroy',['post' => $post->id]) }}"" >
+    <a href="{{ route('posts.edit',['post'=>$post->id]) }}" class="btn btn-primary">Edit Post</a>
+    <form method="POST" class="fm-inline"
+    action="{{ route('posts.destroy',['post' => $post->id]) }}"" >
         @csrf
         @method('DELETE')
-        <input type="submit" value="Delete!" />
+        <input type="submit" value="Delete!" class="btn btn-primary" />
     </form>
 @empty
     <p>No titles</p>
